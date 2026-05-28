@@ -4,9 +4,9 @@
   "devDependencies": {
     "@swc/cli": "^0.8.1",
     "@swc/core": "^1.15.40",
-    "ejs": "^5.0.2",
+    "ejs": "^6.0.1",
     "lightningcss": "^1.32.0",
     "lightningcss-cli": "^1.32.0",
-    "rolldown": "^1.0.2"
+    "rolldown": "^1.0.3"
   }
 }
