@@ -12,7 +12,9 @@ copy_file() {
     mkdir -p "${output%/*}"
 
     cp "$input" "$output"
+
   fi
+
 }
 
 build_jar() {
@@ -30,9 +32,11 @@ build_jar() {
     if [[ "${MODE:-development}" == production ]]; then
 
       javac -cp @classpath.txt "${input/%Handler.java/*.java}" -d "${outdir}classes/"
+
     else
 
       javac -cp @classpath.txt "${input/%Handler.java/*.java}" -d "${outdir}classes/" -g
+
     fi
 
     local args=("-C" "${outdir}classes/" "./")
@@ -40,6 +44,7 @@ build_jar() {
     if [ -d "${indir}resources/" ]; then
 
       args+=("-C" "$indir" "resources/")
+
     fi
 
     local dir="${input%/*}"
@@ -50,19 +55,24 @@ build_jar() {
       if [[ "${MODE:-development}" == production ]]; then
 
         npx ejs "${indir}${name}.html" -o "${outdir}template.html" -m ! -w
+
       else
 
         npx ejs "${indir}${name}.html" -o "${outdir}template.html" -m !
+
       fi
 
       args+=("-C" "$outdir" "template.html")
+
     fi
 
     jar cf "$output" "${args[@]}"
 
     rm -r "${outdir}classes/"
     rm -f "${outdir}template.html"
+
   fi
+
 }
 
 build_css() {
@@ -75,11 +85,15 @@ build_css() {
     if [[ "${MODE:-development}" == production ]]; then
 
       npx lightningcss "$input" -o "$output" --bundle --browserslist --minify
+
     else
 
       npx lightningcss "$input" -o "$output" --bundle --browserslist
+
     fi
+
   fi
+
 }
 
 build_js() {
@@ -96,12 +110,17 @@ build_js() {
     if [[ "${MODE:-development}" == production ]]; then
 
       npx rolldown "${output/%.js/.transpiled.js}" -o "$output" -m
+
     else
 
       cp "${output/%.js/.transpiled.js}" "$output"
+
     fi
 
     rm "${output/%.js/.combined.js}"
     rm "${output/%.js/.transpiled.js}"
+
   fi
+
 }
+

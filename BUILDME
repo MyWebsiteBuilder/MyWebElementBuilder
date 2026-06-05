@@ -10,7 +10,9 @@ for file in src/pub.res/*; do
 
     echo -e "\nCopying $file"
     copy_file "$file" "pub/${file##*/}"
+
   fi
+
 done
 
 for dir in src/pub.lib.*/; do
@@ -21,8 +23,11 @@ for dir in src/pub.lib.*/; do
 
       echo -e "\nCopying $file"
       copy_file "$file" "pub/lib/${file##*/}"
+
     fi
+
   done
+
 done
 
 for dir in src/pub.*/; do
@@ -43,7 +48,10 @@ for dir in src/pub.*/; do
 
     echo -e "\nBuilding ${dir}${name}.js"
     build_js "${dir}${name}.js" "${item}.js"
+
   fi
+
 done
 
 echo -e "\nDone"
+
