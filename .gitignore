@@ -1,7 +1,5 @@
-classpath.txt
-
 package-lock.json
 node_modules/
-
-pub/
+classpath.txt
+dst/
 
