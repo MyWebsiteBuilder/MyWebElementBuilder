@@ -62,21 +62,21 @@ build() {
 
   fi
 
-  if [[ -f "$src".java ]]; then
+  if [[ -f "${src%/*}"/Handler.java ]]; then
 
     mkdir -p "${dst%/*}"/
 
     if [[ "${MODE:-development}" == production ]]; then
 
-      javac -cp @classpath.txt "$src".java -d "${dst%/*}"/
+      javac -cp @classpath.txt "${src%/*}"/Handler.java -d "${dst%/*}"/
 
     else
 
-      javac -cp @classpath.txt "$src".java -d "${dst%/*}"/ -g
+      javac -cp @classpath.txt "${src%/*}"/Handler.java -d "${dst%/*}"/ -g
 
     fi
 
-    args=(-C "${dst%/*}"/ "${dst##*/}".class)
+    args=(-C "${dst%/*}"/ Handler.class)
 
     if [[ -d "${src%/*}"/resources/ ]]; then
 
@@ -92,7 +92,7 @@ build() {
 
     jar cf "$dst".jar "${args[@]}"
 
-    rm "$dst".class
+    rm "${dst%/*}"/Handler.class
 
     rm -f "$dst".html
 
