@@ -4,54 +4,45 @@ set -euo pipefail
 
 source .builder
 
-for file in src/pub.res/*; do
+mkdir -p dst/
 
-  if [ -f "$file" ]; then
+if [[ -e src/pub/ ]]; then
 
-    echo -e "\nCopying $file"
-    copy_file "$file" "pub/${file##*/}"
+  printf "Building src/pub/\n"
+  cp -r -T src/pub/ dst/pub/
+
+fi
+
+for src in src/pub.lib.*/; do
+  
+  if [[ -e "$src" ]]; then
+
+    printf "Building $src\n"
+    dst="${src//./\/}"
+    dst="${dst/src/dst}"
+    cp -r -T "$src" "$dst"
 
   fi
 
 done
 
-for dir in src/pub.lib.*/; do
+for src in src/pub.*/; do
 
-  for file in "$dir"*; do
+  if [[ -e "$src" ]]; then
+   
+   if [[ ! "$src" =~ ^src/pub.lib.*/ ]]; then
 
-    if [ -f "$file" ]; then
-
-      echo -e "\nCopying $file"
-      copy_file "$file" "pub/lib/${file##*/}"
-
+      printf "Building $src\n"
+      dst="${src//./\/}"
+      dst="${dst/src/dst}"
+      dst="${dst%\/}"
+      build "$src" "$dst"
+      
     fi
 
-  done
-
-done
-
-for dir in src/pub.*/; do
- 
-  item="${dir#src/}"
-  item="${item//.//}"
-  item="${item%/}"
-
-  name="${item##*/}"
-
-  if [ -f "${dir}Handler.java" ]; then
-
-    echo -e "\nBuilding ${dir}Handler.java"
-    build_jar "${dir}Handler.java" "${item}.jar"
-
-    echo -e "\nBuilding ${dir}${name}.css"
-    build_css "${dir}${name}.css" "${item}.css"
-
-    echo -e "\nBuilding ${dir}${name}.js"
-    build_js "${dir}${name}.js" "${item}.js"
-
   fi
 
 done
 
-echo -e "\nDone"
+printf "Done\n"
 
