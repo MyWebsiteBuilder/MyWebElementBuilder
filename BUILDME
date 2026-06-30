@@ -47,11 +47,11 @@ for src in src/pub.*/; do
 
         if [[ "${MODE:-development}" == production ]]; then
 
-          npx ejs "$src".html -o "$dst".html -m "!" -w
+          npx ejs "$src".html -o "$dst".html -m ! -w
 
         else
 
-          npx ejs "$src".html -o "$dst".html -m "!"
+          npx ejs "$src".html -o "$dst".html -m !
 
         fi
 
@@ -102,11 +102,11 @@ for src in src/pub.*/; do
 
         if [[ "${MODE:-development}" == production ]]; then
 
-          javac -cp "dst/lib/*" "${src%/*}"/Handler.java -d "${dst%/*}"/
+          javac -cp dst/lib/* "${src%/*}"/Handler.java -d "${dst%/*}"/
 
         else
 
-          javac -cp "dst/lib/*" "${src%/*}"/Handler.java -d "${dst%/*}"/ -g
+          javac -cp dst/lib/* "${src%/*}"/Handler.java -d "${dst%/*}"/ -g
 
         fi
 
